@@ -1,0 +1,65 @@
+<div class="wrapper">
+    <div class="sidebar" data-background-color="white" data-active-color="danger">
+    <div class="sidebar-wrapper" id="sideLinks">
+            <div class="logo">
+                <a href="{{ url_for('dashboard') }}" class="simple-text">
+                    Student Hub
+                </a>
+            </div>
+            <ul class="nav">
+                <li {% if 'dashboard' in request.path %}class="active"{% endif %} id="dashboard">
+                    <a href="{{ url_for('dashboard') }}" class="menu-link">
+                        <i class="ti-dashboard"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li {% if 'student' in request.path %}class="active"{% endif %} id="students">
+                    <a href="{{ url_for('student') }}" class="menu-link">
+                        <i class="ti-id-badge"></i>
+                        <p>Students</p>
+                    </a>
+                </li>
+                <li {% if 'classes' in request.path %}class="active"{% endif %} id="classes">
+                    <a href="{{ url_for('classes') }}" class="menu-link">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Classes</p>
+                    </a>
+                </li>
+				<li {% if 'subject' in request.path %}class="active"{% endif %} id="subjects">
+                    <a href="{{ url_for('subject') }}" class="menu-link">
+                        <i class="ti-agenda"></i>
+                        <p>Subjects</p>
+                    </a>
+                </li>
+                <li {% if 'result' in request.path %}class="active"{% endif %} id="result">
+                    <a href="{{ url_for('result') }}" class="menu-link">
+                        <i class="ti-check-box"></i>
+                        <p>Results</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+
+<div class="main-panel">
+	<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+		<div class="container-fluid">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{{ url_for('adminLogin') }}" class="nav-link text-body font-weight-bold px-0 logout-link"
+                    style="padding-left: 15px; padding-right: 20px; padding-top: 8; margin: 0; color: #777">
+                        <i class="fa fa-sign-out me-sm-1"></i>
+                        <span class="d-sm-inline d-none">Logout</span>
+                    </a>
+                </li>
+            </ul>
+            <ol style="background-color: rgb(255 255 255 / 0%); " class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm"><a style="color: #777;" class="opacity-5 text-dark" href="#">Pages</a></li>
+                <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a  style="color: #777;" href="#">{{ title }}</a></li>
+            </ol>
+                
+            <h6 class="font-weight-bolder mb-0">{{ title }}</h6>	
+		</div>
+	</nav> 
+
+

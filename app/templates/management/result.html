@@ -1,0 +1,200 @@
+{% include 'management/header.html' %}
+<script src="{{ url_for('static',filename='js/result.js') }}"></script>
+<body>
+  <div class="">        
+      {% include 'management/sidebar.html' %}    
+	  <div class="content">
+		<div class="container-fluid">   	
+			<div class="row">				 
+				<hr>		
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-10">
+							<h3 class="panel-title"></h3>
+						</div>
+						<div class="col-md-2" align="right">
+							<button type="button" name="add" id="addResult" class="btn btn-danger btn-md"><i class="ti-plus"></i> Add New</button>
+						</div>
+					</div>
+				</div>
+				<table id="resultList" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Student Name</th>							
+							<th>Semester</th>
+                            <th>Subjects</th>
+                            <th>Average</th>
+                            <th>Action</th>			
+						</tr>
+					</thead>
+					<tbody>
+					  {% for result in results %}
+					  <tr>
+						<td>{{ result.id }}</td>
+						<td>{{ result.student.first_name }} {{ result.student.last_name }}</td>							
+						<td>{{ result.semester }}</td>
+                        <td>{{ result.CountSubjects }}</td>
+                        <td>{{ result.average }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown{{ result.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="actionDropdown{{ result.id }}">
+                                    <a class="dropdown-item" href="{{ url_for('edit_result', result_id=result.id) }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ url_for('delete_result', result_id=result.id) }}">Delete</a>
+                                </div>
+                            </div>
+						</td>
+					  </tr> 
+					{% endfor %}	  
+					</tbody>
+				</table>						
+				</div>	
+			</div>
+		</div>	
+	</div>
+  <div id="resultModal" class="modal fade">
+	<div class="modal-dialog">
+		<form id="resultForm" method="POST" action="{{ url_for('save_result') }}" class="form-inline">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"><i class="fa fa-plus"></i> Add Result</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="student_id" class="control-label">Student Name*</label>
+                        <select class="form-control" id="student_id" name="student_id" required>
+							<option value="----" selected>Please Select student Here</option>
+                            {% for student in students %}
+                                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                            {% endfor %}
+                        </select>
+					</div>&nbsp;&nbsp;
+                    <div class="form-group">
+                        <label for="semester" class="control-label">Semester*</label>
+                        <input type="text" class="form-control" id="semester" name="semester" placeholder="Semester" required>
+                    </div>
+                    <hr/>
+					<div class="row">
+						<div class="col-lg-4 col-md-4">
+							<div class="form-group mb-3">
+								<label for="subject" class="control-label">Subject*</label>
+								<select class="form-control" id="subject" name="subject">
+									<option value="----" disabled>Please Select Subject Here</option>
+									{% for subject in subjects %}
+										<option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="form-group mb-3">
+								<label for="marks" class="control-label">Mark*</label>
+								<input type="text" class="form-control" id="marks" name="marks" placeholder="Enter Subject's mark">
+							</div>
+							<div class="form-group mb-3">
+								<button class="btn btn-primary btn-md rounded-0" id="add_to_list" type="button"><span class="material-icons"></span> Add to List</button>
+							</div>
+						</div>
+					</div>
+                    <hr/>
+					<table class="table table-bordered" id="subjectTable">
+						<thead>
+							<tr>
+								<th>Subject</th>
+								<th>Mark</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Rows will be dynamically added here -->
+						</tbody>
+						<tfoot>
+							<tr>
+								<th class="px-2 py-1"><b>Average</b></th>
+								<th colspan="2" class="px-2 py-1 fw-bolder" id="average">0.00</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="result_id" id="result_id" />
+                    <input type="hidden" name="action" id="action" value="updateResult" />
+                    <input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        document.getElementById("add_to_list").addEventListener("click", function() {
+            var subjectId = document.getElementById("subject").value;
+			var subjectName = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
+            var marks = document.getElementById("marks").value;
+
+            if (subjectId && marks) {
+                var row = document.createElement("tr");
+
+                var subjectCell = document.createElement("td");
+                subjectCell.textContent = subjectName;
+				var subjectInput = document.createElement("input");
+				subjectInput.type = "hidden";
+				subjectInput.name = "subject_marks_subjects";
+				subjectInput.value = subjectId;
+				subjectCell.appendChild(subjectInput);
+
+                var marksCell = document.createElement("td");
+                marksCell.textContent = marks;
+				var marksInput = document.createElement("input");
+				marksInput.type = "hidden";
+				marksInput.name = "subject_marks_marks";
+				marksInput.value = marks;
+				marksCell.appendChild(marksInput);
+
+                var deleteCell = document.createElement("td");
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.classList.add("btn", "btn-danger", "btn-sm");
+                deleteButton.addEventListener("click", function() {
+                    row.remove();
+					calculateAverage();
+                });
+                deleteCell.appendChild(deleteButton);
+
+                row.appendChild(subjectCell);
+                row.appendChild(marksCell);
+                row.appendChild(deleteCell);
+
+                document.querySelector("#subjectTable tbody").appendChild(row);
+
+				calculateAverage();
+            }
+        });
+		
+		// Function to calculate average
+		function calculateAverage() {
+			var totalMarks = 0;
+			
+			$('#subjectTable tbody tr').each(function() {
+				var mark = $(this).find('td:eq(1)').text();
+				totalMarks += parseFloat(mark)
+			});
+
+			$('#average').text(parseFloat(totalMarks / $('#subjectTable tbody tr').length).toLocaleString('en-Us', {
+				style: 'decimal',
+				maximumFractionDigits: 2
+			}))
+		}
+
+	});
+
+	
+</script>
+
+</body>
+
+</html>

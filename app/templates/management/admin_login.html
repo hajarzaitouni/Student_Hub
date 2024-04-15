@@ -1,0 +1,38 @@
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+    <title>Admin Login</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
+    <link href="{{ url_for('static',filename='assets/css/admin_login.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/themify-icons.css') }}">
+</head>
+<body>
+    <div id="login">
+        <div class="title-login">
+            <h1>Admin Login</h1>
+        </div>
+        <form method="POST" action="/admin/login">
+            <div class="email-box">
+                <span class="ti-user"></span>
+                {% if form.email.errors %}
+                    <input class="danger" type="text" id="email" name="email" placeholder="Enter your email">
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                <input type="text" id="email" name="email" placeholder="Enter your email">
+                {% endif %}
+            </div>
+            <div class="pass-box">
+                <span class="ti-key"></span>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+            <input type="submit" value="LOGIN">
+        </form>
+    </div>
+</body>
+</html>
+    

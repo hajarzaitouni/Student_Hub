@@ -1,0 +1,33 @@
+{% include 'management/header.html' %}
+<script src="{{ url_for('static', filename='js/classes.js') }}"></script>
+<body>
+    <div class="">        
+        {% include 'management/sidebar.html' %}    
+        <div class="content">
+            <div class="container-fluid">       
+                <div class="row">
+                    <hr>
+                    <form method="post" id="classForm" action="{{ url_for('save_class')}}">
+                        <input type="hidden" name="classid" value="{{ class_obj.id }}">
+                        <div class="form-group">
+                            <label for="level" class="control-label">Level*</label>
+                            <input type="text" class="form-control" id="level" name="level" value="{{ class_obj.level }}" required>                    
+                        </div>
+                        <div class="form-group">
+                            <label for="section" class="control-label">Section*</label>
+                            <input type="text" class="form-control" id="section" name="section" value="{{ class_obj.section }}" required>                    
+                        </div>                         
+                        <!--<input type="hidden" name="classid" id="classid" value="{{ class_obj.id }}" /> -->
+                        <input type="hidden" name="action" id="action" value="updateClass" />
+                        <div class="modal-footer">
+                            <button type="submit" name="save" id="save" class="btn btn-info">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>                      
+                        
+                    </form>             
+                </div>  
+            </div>
+        </div>  
+    </div> 
+</body>
+</html>

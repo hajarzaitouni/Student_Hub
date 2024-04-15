@@ -1,0 +1,105 @@
+{% include 'management/header.html' %}
+<script src="{{ url_for('static',filename='js/result.js') }}"></script>
+<body>
+  <div class="">        
+      {% include 'management/sidebar.html' %}    
+	  <div class="content">
+		<div class="container-fluid">   	
+			<div class="row">				 
+				<hr>		
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-10">
+							<h3 class="panel-title"></h3>
+						</div>
+						<div class="col-md-2" align="right">
+							<button type="button" name="add" id="addResult" class="btn btn-danger btn-md"><i class="ti-plus"></i> Add New</button>
+						</div>
+					</div>
+				</div>
+				<table id="resultList" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Student Name</th>							
+							<th>Semester</th>
+                            <th>Subjects</th>
+                            <th>Average</th>
+                            <th>Action</th>			
+						</tr>
+					</thead>
+					<tbody>
+					  {% for result in results %}
+					  <tr>
+						<td>{{ result.id }}</td>
+						<td>{{ result.student.first_name }} {{ result.student.last_name }}</td>							
+						<td>{{ result.semester }}</td>
+                        <td>{{ result.number_of_subjects }}</td>
+                        <td>{{ result.average_score }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown{{ result.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="actionDropdown{{ result.id }}">
+                                    <a class="dropdown-item" href="{{ url_for('edit_result', result_id=result.id) }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ url_for('delete_result', result_id=result.id) }}">Delete</a>
+                                </div>
+                            </div>
+						</td>
+					  </tr> 
+					{% endfor %}	  
+					</tbody>
+				</table>						
+				</div>	
+			</div>
+		</div>	
+	</div>
+  <div id="resultModal" class="modal fade">
+	<div class="modal-dialog">
+		<form method="post" id="resultForm" action="{{ url_for('save_result')}}" class="form-inline">
+			<div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group mb-3 ">
+                        <label for="student_id" class="control-label">Student Name*</label>
+                        <select class="form-control" id="student_id" name="student_id" required>
+                            <option value="----" selected>Select student ...</option>
+                            {% for student in students %}
+                                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="semester" class="control-label">Semester*</label>
+                        <input type="text" class="form-control" id="semester" name="semester" placeholder="Semester" required>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row align-items-end">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="form-group mb-3 ">
+                        <label for="subject" class="control-label">Subject*</label>
+                        <select class="form-select rounded-0" id="subject" name="subject" required>
+                            <option value="----" selected>Please Select Subject Here</option>
+                            {% for subject in subjects %}
+                                <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="form-group mb-3 ">
+                        <label for="marks" class="control-label">Mark</label>
+                        <input type="number" step="any" id="marks" name="marks" class="form-control form-control-sm py-1 rounded-0 text-end">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <button class="btn btn-primary btn-sm rounded-0 d-flex align-items-center" id="add_to_list" type="button"><span class="material-icons">add</span> Add to List</button>
+                </div>
+            </div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
