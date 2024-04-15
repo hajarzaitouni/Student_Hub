@@ -1,0 +1,40 @@
+{% extends "public/layout.html" %}
+{% block content %}
+<div class="ftco-cover-1 overlay" style="background-image: url('/static/images/home.jpg')">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5">
+                <h1 class="line-bottom">Student Hub</h1>
+            </div>
+            <div class="col-lg-5 ml-auto">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="quick-contact-form bg-white">
+                <h2>Login Information</h2>
+                <hr/>
+                <span class="fa fa-user"> </span> <label>{{ student.first_name }}</label><br/>
+                <span class="fa fa-cog"> </span> <label>{{ student.last_name }}</label><br/>
+                <hr/>
+                <div class="form-group">
+                    <a href="{{ url_for('logout') }}" class="btn btn-primary px-5">Logout <span class="fa fa-log-out"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 pr-md-5 mr-auto" style="padding-left: 0px; padding-right: 1rem !important; margin-left: 95px;">
+            <h2 class="">Welcome to the Student Hub</h2>
+            <p>
+                Explore your academic journey, track your progress, and access your results securely.
+                Happy learning!
+            </p>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

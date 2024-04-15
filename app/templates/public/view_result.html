@@ -1,0 +1,67 @@
+{% extends "public/layout.html" %}
+{% block content %}
+    <div class="rows" style="margin-top: 20px;">
+        <div class="col-12 col-sm-12 col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Student Results details </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="container">
+                            <div class="well">
+                                <span id="printout">
+                                    <table class="table ">
+                                        <tbody>
+                                            <tr>       
+                                                <td>
+                                                    <p>
+                                                    <b>Name : {{ student.first_name }} {{ student.last_name }}</b><br/>
+                                                    <b>Roll Number : {{ student.roll_no }}</b><br/>
+                                                    <b>Level : {{ student.class_rel.level }}</b><br/>
+                                                    <b>Academic_year : {{ student.academic_year }}</b>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <form class="form-horizontal span4" action="#" method="POST">
+                                        <table  class="table table-striped" cellspacing="0" id="myTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Subject</th>
+                                                    <th>Marks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for result in results %}
+                                                    {% for subject_mark in result.subject_marks %}
+                                                        <tr>
+                                                            <td>{{ loop.index }}</td>
+                                                            <td>{{ subject_mark.subject.subject_name }}</td>
+                                                            <td>{{ subject_mark.marks }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Average</th>
+                                                    <th>{{ results | map(attribute='average') | sum / results | length }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </form>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
