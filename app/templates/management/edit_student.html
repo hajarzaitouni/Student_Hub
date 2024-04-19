@@ -7,7 +7,7 @@
 			<div class="container-fluid">   	
 				<div class="row">
 				<hr>
-				<form method="post" id="studentForm" enctype="multipart/form-data" action="{{ url_for('save_student')}}">						
+				<form method="post" id="studentForm" enctype="multipart/form-data" action="{{ url_for('save_student') }}">						
 					<div class="modal-body">
 						<div class="form-group">
 							<label for="admission_no" class="control-label">Admission Number</label>							
@@ -43,13 +43,13 @@
 						</div>
 						<div class="form-group">
 							<label for="admission_date" class="control-label">Admission Date</label>							
-							<input type="text" class="form-control"  id="admission_date" name="admission_date" placeholder="mm/dd/yyyy">							
+							<input type="text" class="form-control"  id="admission_date" name="admission_date" placeholder="mm-dd-yyyy">							
 						</div>		
 						<div class="form-group">
 							<label for="class_id" class="control-label">Class*</label>	
 							<select name="class_id" id="class_id" class="form-control" required>
 								{% for class in classes %}
-									<option data-class="{{ student.class_id }}" value="{{class.id}}" {% if student.class_id == class.id %}selected{% endif %}>{{class.level}}</option>		
+									<option value="{{class.id}}" {% if student.class_id == class.id %}selected{% endif %}>{{class.level}}</option>		
 								{% endfor %}
 							</select>
 						</div>
@@ -60,14 +60,14 @@
 						<div class="form-group">
 							<label for="gender" class="control-label">Gender</label>				
 							<select class="form-control" id="gender" name="gender"/>
-								<option value="">--Select--</option>							
+								<option value="" selected>--Select--</option>							
 								<option value="male">Male</option>
 								<option value="female">Female</option>							
 							</select>							
 						</div>	
 						<div class="form-group">
 							<label for="date_of_birth" class="control-label">Date of Birth</label>							
-							<input type="text" class="form-control"  id="date_of_birth" name="date_of_birth" placeholder="mm/dd/yyyy">							
+							<input type="text" class="form-control"  id="date_of_birth" name="date_of_birth" placeholder="mm-dd-yyyy">							
 						</div>	
 						<div class="form-group">
 							<label for="mobile" class="control-label">Mobile</label>							
@@ -80,18 +80,25 @@
 						<div class="form-group">
 							<label for="father_name" class="control-label">Father Name</label>							
 							<input type="text" class="form-control" id="father_name" name="father_name" placeholder="Father name...">							
-						</div>	
+						</div>
+						<div class="form-group">
+							<label for="father_occupation" class="control-label">Occupation</label>							
+							<input type="text" class="form-control" id="father_occupation" name="father_occupation" placeholder="Father occupation...">							
+						</div>
 						<div class="form-group">
 							<label for="mother_name" class="control-label">Mother Name</label>							
 							<input type="text" class="form-control" id="mother_name" name="mother_name" placeholder="Mother Name...">						
-						</div>									
+						</div>
+						<div class="form-group">
+							<label for="mother_occupation" class="control-label">Occupation</label>							
+							<input type="text" class="form-control" id="mother_occupation" name="mother_occupation" placeholder="Mother occupation...">							
+						</div>										
 					</div>
 					<input type="hidden" name="student_id" id="student_id" value="{{student.id}}"/>
 					<input type="hidden" name="action" id="action" value="updateStudent" />
 					<div class="modal-footer">
 						<button type="submit" name="save" id="save" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>	
 					</div>						
 				</form>
 				</div>	

@@ -37,7 +37,14 @@ def adminLogin():
 #admin dashboard
 @app.route("/admin/dashboard")
 def dashboard():
-    return render_template('management/dashboard.html', title='Dashboard')
+    if 'loggedin' in session and 'admin_id' in session:
+        admin_id = session['admin_id']
+        admin = Admin.query.get(admin_id)
+        if admin:
+            return render_template('management/dashboard.html', title='Dashboard', authenticated=True)
+    
+    # If the user is not authenticated or admin_id is not in session, redirect to admin login
+    return redirect(url_for('adminLogin'))
 
 #logout from admin dashboard
 @app.route('/admin/logout')
@@ -75,6 +82,7 @@ def edit_student():
 @app.route("/admin/save_student", methods=['POST'])
 def save_student():
     if 'loggedin' in session:
+        print("Form Data:", request.form)
         if request.method == 'POST' and 'admission_no' in request.form:
             admission_no = request.form['admission_no']
             roll_no = request.form['roll_no']  
@@ -93,6 +101,7 @@ def save_student():
             mother_occup = request.form['mother_occupation']
             
             action = request.form['action']
+            
             
             if action == 'updateStudent':
                 student_id = request.form['student_id']
